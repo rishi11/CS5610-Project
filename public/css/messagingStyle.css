@@ -1,0 +1,32 @@
+﻿.messageStyle{
+    margin : 10px;
+    padding : 5px;
+    width : 200px;
+    border: 1px solid darkgray;
+    height  : 250px;
+    background-color : beige;
+}
+
+.messageHandler {
+    width: 100%;
+    height : 25%;
+    
+}
+
+.messageList{
+    width : 100%;
+    overflow : hidden;
+    overflow-y : scroll;
+    overflow-x : hidden;
+    height : 146px;
+}
+
+.messageListTable{
+    width : 100%;
+    height : 100%;
+}
+
+tr:nth-child(even){
+    background-color : lightblue;
+}
+

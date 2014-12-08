@@ -1,0 +1,22 @@
+﻿.youtubeUrl{
+    width  : 100%;
+}
+.youtubeStyler{
+    padding : 10px;
+    background-color : beige;
+}
+
+.youtubeVideo{
+    height : 100%;
+    width : 100%;
+}
+.urlTD {
+    width : 90%;
+}
+.playTD{
+    width : 10%;
+}
+.youtubeTable{
+    width : 100%;
+    margin-bottom : 5px;
+}

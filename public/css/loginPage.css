@@ -1,0 +1,30 @@
+﻿ .mainDiv {
+    text-align:center;
+
+}
+
+.sub-container {
+    top : 50%;
+    width: 50%;
+    height: 50%;
+    border: 1px solid darkgray;
+    display: inline-block;
+    background-color:lightgray;
+    vertical-align : central;
+    margin-top : 200px;
+    padding : 20px;
+}
+.signIn {
+    margin-top : 20px;
+}
+.anchors {
+    margin-top : 20px;
+    padding : 10px;
+}
+.signUp {
+    float : right;
+}
+.forgorPsw {
+    float : left;
+}
+

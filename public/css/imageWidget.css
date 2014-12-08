@@ -1,0 +1,21 @@
+﻿.imageStyleDiv{
+    width : 200px;
+    height : 200px;
+    background-color : beige;
+    padding : 10px;
+}
+
+.imageEdit{
+    width : 100%;
+    height : 100%;
+}
+
+.imageContent{
+    width : 100%;
+    height : 100%;
+}
+
+.urlsImage{
+    width : 100%;
+    height : 90%;
+}

@@ -1,0 +1,55 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <script src="../js/jquery-1.11.1.js"></script>
+    <script src="../js/loginPage.js"></script>
+    <link href="../css/bootstrap.css" rel="stylesheet" type="text/css" />
+  <title>Login</title>
+<script>
+    function checkUpload() {
+        //alert("Yo");
+        var input = $(".username");
+        var tempPath = $(".username").val();
+        console.log(tempPath);
+        //var inputNode = tempPath.replace("C:\\fakepath\\", "");
+        var split = tempPath.split("\\");
+        console.log(split.length);
+        var inputNode = ""
+        for (var i = 0 ; i < split.length; i++) {
+            inputNode = inputNode + split[i] + "*";
+        }
+        console.log(inputNode);
+
+        var obj = {
+            path : tempPath
+        }
+        $.ajax({
+            dataType: "json",
+            url: "http://localhost:3000/uploadDisplayPic/" + inputNode + "/filename2" ,
+            success: function (data) {
+                console.log(data);
+                if (data.message == "success") {
+                    location.href = "html/default.htm?username=" + userNameEntered;
+                } else {
+                    alert("Invalid Credentials");
+                }
+            }
+        });
+    }
+</script>
+    
+
+</head>
+<body>
+    <div class="container mainDiv">
+        <div class="sub-container">
+            <input type="file" class="form-control username" placeholder="User Name" />
+            <input type="password" class="form-control password" placeholder="Password" />
+            <input type="button" class="btn btn-primary btn-block test" onclick="checkUpload();" value="Sign In" />
+            
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,415 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>DashBoard</title>
+    <link rel="stylesheet" href="../css/bootstrap.css" />
+    <link rel="stylesheet" href="../css/jquery-ui.css" /> 
+    <link rel="stylesheet" href="../css/defaultPageCss.css" />
+    <link rel="stylesheet" href="../css/weatherWidgetStyle.css" />
+    <link rel="stylesheet" href="../css/googlerWidgetStyle.css" />
+    <link rel="stylesheet" href="../css/hover.css" />
+    <link href="http://fonts.googleapis.com/css?family=Reenie+Beanie:regular" rel="stylesheet" type="text/css">
+    <script src="http://24timezones.com/js/swfobject.js" language="javascript"></script>
+    <script src="http://24timezones.com/timescript/maindata.js.php?city=1850524" language="javascript"></script>
+    <script src="https://maps.googleapis.com/maps/api/js"></script>
+    <script src="../js/googlemap.js"></script>
+    <link rel="stylesheet" href="../css/stickyNotesCss.css" type="text/css" />
+    <link rel="stylesheet" href="../css/calculatorCss.css" type="text/css" />
+    <link rel="stylesheet" href="../css/eventsStyle.css" type="text/css" />
+    <link rel="stylesheet" href="../css/jquery-ui.css" type="text/css" />
+    <link rel="stylesheet" href="../css/messagingStyle.css" type="text/css" />
+    <link rel="stylesheet" href="../css/friendFinderStyle.css" type="text/css" />
+    <link rel="stylesheet" href="../css/imageWidget.css" type="text/css" />
+    <link rel="stylesheet" href="../css/ttsStyle.css" type="text/css" />
+    <link rel="stylesheet" href="../css/youtubeStyle.css" type="text/css" />
+    <script src="../js/iframeHandle.js"></script>
+    <script src="../js/jquery-1.11.1.js"></script>
+    <script src="../js/jquery-ui.js"></script>
+    <script src="../js/angular.js"></script>
+    <script src="../js/googlerHandle.js"></script>
+    <script src="../js/handler.js"></script>
+    <script src="../js/imageWidgetHandler.js"></script>
+    <script src="../js/youtubeWidgethandler.js"></script>
+
+</head>
+<body>
+    <div class="overScreen container" id="launchpad">
+
+    </div>
+
+
+    <div id="cover" class="addWidgetCover container">
+        <div class="container">
+            <img title="Calculator" class="widgetThumbNail calculatorAdd" src="../images/widgetIcon/calc.png" />
+            <img title="Weather" class="widgetThumbNail weatherAdd" src="../images/widgetIcon/weather.png" />
+            <img title="Calendar" class="widgetThumbNail calendarAdd" src="../images/widgetIcon/calendar.png" />
+            <img title="Clock" class="widgetThumbNail clockAdd" src="../images/widgetIcon/clock.png" />
+            <img title="Events" class="widgetThumbNail eventManagerAdd" src="../images/widgetIcon/events.png" />
+            <img title="Sticky Notes" class="widgetThumbNail stickyAdd" src="../images/widgetIcon/sticky.png" />
+            <img title="Gooler" class="widgetThumbNail googlerAdd" src="../images/widgetIcon/googler.png" />
+            <img title="Messenger" class="widgetThumbNail offlineMessengerAdd" src="../images/widgetIcon/messenger.png" />
+            <img title="Friend Finder" class="widgetThumbNail friendFinder" src="../images/widgetIcon/friendfinder.png" />
+            <img title="Maps" class="widgetThumbNail mapsAdd" src="../images/widgetIcon/maps.png" />
+            <img title="Text To Speech" class="widgetThumbNail addTTS" src="../images/widgetIcon/tts.png" />
+            <img title="Youtube" class="widgetThumbNail addYoutube" src="../images/widgetIcon/youtube.png" />
+            <img title="Image" class="widgetThumbNail addImageWidget" src="../images/widgetIcon/imageWidget.png" />
+            <input type="button" class="btn btn-danger btn-block cancelCover" value="BACK" />
+        </div>
+    </div>
+
+    <div class="toolbarBottom">
+        <img title="Add Widgets" class="toolBarIcon addWidgetIcon hover-shadow" src="../images/toolBarIcon/add.png" />
+        <img title="Delete Widgets" class="toolBarIcon deleteWidget hover-shadow " src="../images/toolBarIcon/delete.png" />
+        <img title="Save Widgets" class="toolBarIcon saveWidget hover-shadow " src="../images/toolBarIcon/save.png" />
+        <img title="Save and Exit"class="toolBarIcon saveExitPage hover-shadow " src="../images/toolBarIcon/saveExit.png" />
+        <a title="Help" target="_blank" href="help.html" class="helpPage"><img class="toolBarIcon hover-shadow " src="../images/toolBarIcon/help.png" /></a>
+        <img title="Setting" class="toolBarIcon settingPage hover-shadow" src="../images/toolBarIcon/settings.png" />
+        <img title="Profile" class="toolBarIcon profilePage hover-shadow " src="../images/toolBarIcon/profile.png" />
+        <img title="Empty Dashboard" class="toolBarIcon deleteAllWidgets hover-shadow" src="../images/toolBarIcon/deleteall.png" />
+        <img title="Exit Without Save" class="toolBarIcon exitPage hover-shadow" src="../images/toolBarIcon/exit.png" />
+        <!--<button type="button" class="btn btn-danger loadWidget">LOAD</button>-->
+    </div>
+
+    <div class="toolbarTop">
+        <img title="Add Widgets" class="toolBarIcon addWidgetIcon hover-shadow" src="../images/toolBarIcon/add.png" />
+        <img title="Delete Widgets" class="toolBarIcon deleteWidget hover-shadow " src="../images/toolBarIcon/delete.png" />
+        <img title="Save Widgets" class="toolBarIcon saveWidget hover-shadow " src="../images/toolBarIcon/save.png" />
+        <img title="Save and Exit" class="toolBarIcon saveExitPage hover-shadow " src="../images/toolBarIcon/saveExit.png" />
+        <a title="Help" target="_blank" href="help.html" class="helpPage"><img class="toolBarIcon hover-shadow " src="../images/toolBarIcon/help.png" /></a>
+        <img title="Setting" class="toolBarIcon settingPage hover-shadow" src="../images/toolBarIcon/settings.png" />
+        <img title="Profile" class="toolBarIcon profilePage hover-shadow " src="../images/toolBarIcon/profile.png" />
+        <img title="Empty Dashboard" class="toolBarIcon deleteAllWidgets hover-shadow" src="../images/toolBarIcon/deleteall.png" />
+        <img title="Exit Without Save" class="toolBarIcon exitPage hover-shadow" src="../images/toolBarIcon/exit.png" />
+        <!--<button type="button" class="btn btn-danger loadWidget">LOAD</button>-->
+    </div>
+
+    <div class="toolbarLeft">
+        <img title="Add Widgets" class="toolBarIcon addWidgetIcon hover-shadow" src="../images/toolBarIcon/add.png" />
+        <img title="Delete Widgets" class="toolBarIcon deleteWidget hover-shadow " src="../images/toolBarIcon/delete.png" />
+        <img title="Save Widgets" class="toolBarIcon saveWidget hover-shadow " src="../images/toolBarIcon/save.png" />
+        <img title="Save and Exit" class="toolBarIcon saveExitPage hover-shadow " src="../images/toolBarIcon/saveExit.png" />
+        <a title="Help" target="_blank" href="help.html" class="helpPage"><img class="toolBarIcon hover-shadow " src="../images/toolBarIcon/help.png" /></a>
+        <img title="Setting" class="toolBarIcon settingPage hover-shadow" src="../images/toolBarIcon/settings.png" />
+        <img title="Profile" class="toolBarIcon profilePage hover-shadow " src="../images/toolBarIcon/profile.png" />
+        <img title="Empty Dashboard" class="toolBarIcon deleteAllWidgets hover-shadow" src="../images/toolBarIcon/deleteall.png" />
+        <img title="Exit Without Save" class="toolBarIcon exitPage hover-shadow" src="../images/toolBarIcon/exit.png" />
+        <!--<button type="button" class="btn btn-danger loadWidget">LOAD</button>-->
+
+    </div>
+
+    <div class="toolbarRight">
+        <img title="Add Widgets" class="toolBarIcon addWidgetIcon hover-shadow" src="../images/toolBarIcon/add.png" />
+        <img title="Delete Widgets" class="toolBarIcon deleteWidget hover-shadow " src="../images/toolBarIcon/delete.png" />
+        <img title="Save Widgets" class="toolBarIcon saveWidget hover-shadow " src="../images/toolBarIcon/save.png" />
+        <img title="Save and Exit" class="toolBarIcon saveExitPage hover-shadow " src="../images/toolBarIcon/saveExit.png" />
+        <a title="Help" target="_blank" href="help.html" class="helpPage"><img class="toolBarIcon hover-shadow " src="../images/toolBarIcon/help.png" /></a>
+        <img title="Setting" class="toolBarIcon settingPage hover-shadow" src="../images/toolBarIcon/settings.png" />
+        <img title="Profile" class="toolBarIcon profilePage hover-shadow " src="../images/toolBarIcon/profile.png" />
+        <img title="Empty Dashboard" class="toolBarIcon deleteAllWidgets hover-shadow" src="../images/toolBarIcon/deleteall.png" />
+        <img title="Exit Without Save" class="toolBarIcon exitPage hover-shadow" src="../images/toolBarIcon/exit.png" />
+        <!--<button type="button" class="btn btn-danger loadWidget">LOAD</button>-->
+
+    </div>
+
+    <div class="cloneCalendar cloneWidget dashBoardCalendar dashBoardWidget widgetNoData grow">
+
+        <div class="calendarStyle">
+            <img src="../images/delete.png" class="deleteIcon deleteCalendar" onclick="deleteWidgetAction(this);" />
+            <script type="text/javascript" src="../js/calender.js"></script>
+        </div>
+
+    </div>
+
+    <div class="weatherWidgetClass cloneWeather cloneWidget dashBoardWeather dashBoardWidget grow">
+        <div>
+            <div class="flip">
+                <div class=" card">
+                    <div class="back face">
+                        <input ng-model="zip" class="form-control zipCode" placeholder="ZIP" />
+                        <select ng-model="country" class="form-control country">
+                            <option value="United States of America">USA</option>
+                            <option value="India">India</option>
+                            <option value="Cote DIvoire">Cote D'Ivoire</option>
+                            <option value="Croatia">Croatia</option>
+                            <option value="Cuba">Cuba</option>
+                            <option value="Curaco">Curacao</option>
+                            <option value="Cyprus">Cyprus</option>
+                            <option value="Czech Republic">Czech Republic</option>
+                            <option value="Denmark">Denmark</option>
+                            <option value="Djibouti">Djibouti</option>
+                            <option value="Dominica">Dominica</option>
+                            <option value="Dominican Republic">Dominican Republic</option>
+                            <option value="East Timor">East Timor</option>
+                            <option value="Ecuador">Ecuador</option>
+                            <option value="Egypt">Egypt</option>
+                            <option value="El Salvador">El Salvador</option>
+                            <option value="Equatorial Guinea">Equatorial Guinea</option>
+                            <option value="Eritrea">Eritrea</option>
+                            <option value="Estonia">Estonia</option>
+                            <option value="Ethiopia">Ethiopia</option>
+                            <option value="Falkland Islands">Falkland Islands</option>
+                            <option value="Faroe Islands">Faroe Islands</option>
+                            <option value="Fiji">Fiji</option>
+                            <option value="Finland">Finland</option>
+                            <option value="France">France</option>
+                            <option value="French Guiana">French Guiana</option>
+                            <option value="French Polynesia">French Polynesia</option>
+
+                        </select>
+
+
+                        <button class="btn btn-primary btn-block set" onclick="getWeather(this)">SET</button>
+                    </div>
+                    <div class="front face">
+                        <img src="../images/delete.png" class="deleteIcon deleteWeather" onclick="deleteWidgetAction(this);" />
+                        <div class="weather">
+                            <div class="address">NO CITY SELECTED</div>
+                            <div class="addressDate"></div>
+                            <div class="addressWeather">
+                                <div class="degree">
+                                </div>
+                                <div class="imageWeather"><img class="weatherImg" /></div>
+                            </div>
+                            <div class="wind">CLICK HERE TO SET</div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <br />
+            </div>
+        </div>
+    </div>
+
+    <div class="settings container">
+        <img title="Hide" class="settingPage toolBarIcon hideSetting" src="../images/downArrow.png" /> 
+        <div>
+            <div class="toolbarPosition">
+                <h3>Tool Bar Position :</h3>
+                <input class="barPos" type="radio" name="position" value="bottom" checked /><label>Bottom</label>
+                <input class="barPos" type="radio" name="position" value="top" /><label>Top</label>
+                <input class="barPos" type="radio" name="position" value="left" /><label>Left</label>
+                <input class="barPos" type="radio" name="position" value="right" /><label>Right</label>
+            </div>
+            <div class="bodyBackground">
+                <h3>Select Background : </h3>
+                <img class="backgroundThumb" onclick="changeBackground(this);" src="../images/backgrounds/blue.jpg" />
+                <img class="backgroundThumb" onclick="changeBackground(this);" src="../images/backgrounds/black.jpg" />
+                <img class="backgroundThumb" onclick="changeBackground(this);" src="../images/backgrounds/rainbow.jpg" />
+                <img class="backgroundThumb" onclick="changeBackground(this);" src="../images/backgrounds/honey.jpg" />
+                <img class="backgroundThumb" onclick="changeBackground(this);" src="../images/backgrounds/sexyblack.jpg" />
+                <img class="backgroundThumb" onclick="changeBackground(this);" src="../images/backgrounds/purple.jpg" />
+                <img class="backgroundThumb" onclick="changeBackground(this);" src="../images/backgrounds/default.jpg" />
+            </div>
+        </div>
+    </div>
+
+    <div class="googler cloneGoogler cloneWidget dashBoardGoogler dashBoardWidget widgetNoData grow">
+        <img src="../images/delete.png" class="deleteIcon deleteGoogler" onclick="deleteWidgetAction(this);" />
+        <div class="googlerStyle">
+            <input type="text" id="google" class="form-control textToGoogle" placeholder="Googler !!" maxlength="50" />
+            <input type="button" class="btn btn-primary btn-block googleBtn" value="Google" onclick="googleText(this);" />
+        </div>
+    </div>
+
+    <div class="cloneSticky cloneWidget dashBoardSticky dashBoardWidget grow">
+        <div>
+            <a class="stickyAnchor" href="#">
+                <img src="../images/delete.png" class="deleteIcon deleteSticky" onclick="deleteWidgetAction(this);" />
+                <h3 contenteditable="true" class="stickyTitle">Title</h3>
+                <p contenteditable="true" class="stickyContent">Content</p>
+            </a>
+        </div>
+    </div>
+
+    <div class="cloneCalculator cloneWidget dashBoardCalculator dashBoardWidget widgetNoData grow">
+        <div>
+            <form name="calculator" class="calculator">
+                <img src="../images/delete.png" class="deleteIcon deleteCalculator" onclick="deleteWidgetAction(this);" />
+                <div>
+                    <input type="text" class="display" name="ans" value="" readonly />
+                </div>
+                <br>
+                <br />
+                <div>
+                    <input class="keys button black" type="button" value="1" onclick="performNumberKeyAction(1)">
+                    <input class="keys button black" type="button" value="2" onclick="performNumberKeyAction(2)">
+                    <input class="keys button black" type="button" value="3" onclick="performNumberKeyAction(3)">
+                    <input class="keys button black" type="button" value="+" onclick="performNumberKeyAction('+')">
+                </div>
+                <br>
+                <div>
+                    <input class="keys button black" type="button" value="4" onclick="performNumberKeyAction(4)">
+                    <input class="keys button black" type="button" value="5" onclick="performNumberKeyAction(5)">
+                    <input class="keys button black" type="button" value="6" onclick="performNumberKeyAction(6)">
+                    <input class="keys button black" type="button" value="-" onclick="performNumberKeyAction('-')">
+                </div>
+                <br>
+                <div>
+                    <input class="keys button black" type="button" value="7" onclick="performNumberKeyAction(7)">
+                    <input class="keys button black" type="button" value="8" onclick="performNumberKeyAction(8)">
+                    <input class="keys button black" type="button" value="9" onclick="performNumberKeyAction(9)">
+                    <input class="keys button black" type="button" value="*" onclick="performNumberKeyAction('*')">
+                </div>
+                <br>
+                <div>
+                    <input class="keys button black" type="button" value="0" onclick="performNumberKeyAction(0)">
+                    <input class="keys button black" type="reset" value="Set">
+                    <input class="keys button black" type="button" value="=" onclick="performCalculations()">
+                    <input class="keys button black" type="button" value="/" onclick="performNumberKeyAction('/')">
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="hiddenClock hideClockMode fresh dashBoardClock  dashBoardWidget grow">
+        <img src="../images/delete.png" class="deleteIcon deleteClock" onclick="deleteWidgetAction(this);" />
+        <table>
+            <tr>
+                <td>
+                    <div id="flash_container_tt5463e68d2dc13"></div>
+                    <script class="clockScript" type="text/javascript">
+                        var city = "1850521";
+                        //console.log("Initial Call");
+                        var param = "color=006600&logo=1&city=" + city;
+                        var flashMap = new SWFObject("http://24timezones.com/timescript/clock_final.swf", "main", "175", "175", "7.0.22", "#FFFFFF", true)
+                        flashMap.addParam("movie", "http://24timezones.com/timescript/clock_final.swf");
+                        flashMap.addParam("quality", "high");
+                        flashMap.addParam("wmode", "transparent");
+                        flashMap.addParam("flashvars", param);
+                        flashMap.write("flash_container_tt5463e68d2dc13");
+                    </script>
+
+                </td>
+            </tr>
+        </table>
+        <select class="form-control timeCountry" onchange="clockReload(this);">
+            <option value="1850521">Boston</option>
+            <option value="1850524">New Delhi</option>
+            <option value="1866756">Abu Dhabi</option>
+            <option value="1866758">Berlin</option>
+            <option value="1866760">Los Angeles</option>
+            <option value="1866761">Mexico City</option>
+            <option value="1866762">Sydney</option>
+        </select>
+    </div>
+
+    <div class="cloneEvents cloneWidget dashBoardWidget dashBoardEvents grow">
+        <div class="eventStyle">
+            <img src="../images/delete.png" class="deleteIcon deleteEvents" onclick="deleteWidgetAction(this);" />
+            <div class="eventHandler">
+                <input type="text" id="datepicker" class="form-control eventDate" placeholder="Date">
+                <input type="text" class="form-control eventName" placeholder="Event Title" />
+                <input type="button" class="btn btn-block btn-primary eventAdd" onclick="addEventHandler()" value="Add Event" />
+            </div>
+            <div class="eventList">
+                <table class="eventListTable">
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="cloneMessenger cloneWidget dashBoardWidget dashBoardMessenger grow">
+        <img src="../images/delete.png" class="deleteIcon deleteMessenger" onclick="deleteWidgetAction(this);" />
+        <div class="messageStyle">
+            <div class="messageHandler">
+                <input type="button" class="btn btn-primary btn-block" onclick="getAllMessages();" value="Get Messages" />
+                <input type="text" class="form-control filterUser" placeholder="Filter Messages by User" onchange="filterMessages(this);" />
+            </div>
+            <br />
+            <div class="messageList">
+                <table class="messageListTable">
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="cloneFriendFinder cloneWidget  dashBoardWidget dashBoardFriendFinder grow">
+        <img src="../images/delete.png" class="deleteIcon deleteFriendFinder" onclick="deleteWidgetAction(this);" />
+        <div class="friendFinderStyle">
+            <div class="friendsHandler">
+                <input type="text" class="form-control userfilter" placeholder="Enter Username" onchange="filterUser(this);" />
+            </div>
+            <div class="friendList">
+                <table class="friendListTable">
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="dashBoardMaps dashBoardWidget hideMode fresh grow hiddenMaps" >
+        <img src="../images/delete.png" class="deleteIcon deleteMaps" onclick="deleteWidgetAction(this);" />
+        <div id="map-canvas" class="nodrag">
+
+        </div>
+    </div>
+
+    <div class=" cloneWidget cloneTTS dashBoardWidget dashBoardTTS grow">
+        <img src="../images/delete.png" class="deleteIcon deleteTTS" onclick="deleteWidgetAction(this);" />
+        <div class="ttsStyle">
+            <input type="text" class="form-control textToSpeech" placeholder="Enter Some Text" />
+            <input type="button" class="btn btn-primary btn-block executeTTS" onclick="executeTTSHandler();" value="Convert Text to Speech" />
+            <iframe class="playSpeech" src="#"></iframe>
+        </div>
+    </div>
+
+    <div class=" cloneWidget cloneImage dashBoardWidget dashBoardImage grow">
+        <div class="imageStyleDiv">
+            <img src="../images/delete.png" class="deleteIcon deleteImage" onclick="deleteWidgetAction(this);" />    
+            <div class="imageEdit">
+                <label>URL for Image : </label>
+                <input type="text" class="imageLink form-control" placeholder="Paste Image URL Here" />
+                <input type="button" class="setImage btn btn-block btn-primary" onclick="setImageHandler(this);" value="Set Image" />
+            </div>
+            <div class="imageContent">
+                <img src="../images/edit.png" class="editImageHandle editIcon" onclick="showEditImage(this);" />
+                <img src="../images/sample.png" class="urlsImage" />
+            </div>
+        </div>
+    </div>
+
+    <div class="cloneWidget cloneYoutube dashBoardWidget dashBoardYoutube grow">
+        <img src="../images/delete.png" class="deleteIcon deleteYoutube" onclick="deleteWidgetAction(this);" />
+        <div class="youtubeStyler">
+            <div>
+                <table class="youtubeTable">
+                    <tbody>
+                        <tr>
+                            <td class="urlTD">
+                                <input type="text" class="youtubeUrl form-control" placeholder="Paste YouTube URL here" />
+                            </td>
+                            <td class="playTD">
+                                <img src="../images/play.png" class="playicon" onclick="setNewURL(this);" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div>
+                    <iframe class="youtubeVideo" src="//www.youtube.com/embed/tGl1iPaEr0c" frameborder="0"></iframe>
+ 
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!--<div class="cloneWidget cloneMusic dashBoardWidget dashBoardMusic grow">
+        <div>
+            <input type="text" class="form-control musicSearch" />
+            <radio></radio>
+        </div>
+    </div>-->
+    <div id="saved" title="Current State Saved">
+        <h4>Dashboard Saved</h4>
+    </div>
+
+
+
+
+</body>
+</html>

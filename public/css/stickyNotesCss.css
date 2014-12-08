@@ -1,0 +1,40 @@
+﻿.stickyTitle, .stickyContent {
+    font-size: 100%;
+    font-weight: normal;
+}
+
+.stickyAnchor {
+    text-decoration: none;
+    color: #000;
+    background: #ffc;
+    display: block;
+    height: 10em;
+    width: 10em;
+    padding: 1em;
+    -moz-box-shadow: 5px 5px 7px rgba(33,33,33,1);
+    -webkit-box-shadow: 5px 5px 7px rgba(33,33,33,.7);
+    box-shadow: 5px 5px 7px rgba(33,33,33,.7);
+    -moz-transition: -moz-transform .15s linear;
+    -o-transition: -o-transform .15s linear;
+    -webkit-transition: -webkit-transform .15s linear;
+    margin-left: 10px;
+}
+
+.stickyTitle {
+    font-size: 140%;
+    font-weight: bold;
+    padding-bottom: 10px;
+    overflow : hidden;
+}
+
+.stickyContent {
+    font-family: "Reenie Beanie",arial,sans-serif;
+    font-size: 180%;
+    overflow : hidden;
+}
+
+.stickyAnchor {
+    -webkit-transform: rotate(-6deg);
+    -o-transform: rotate(-6deg);
+    -moz-transform: rotate(-6deg);
+}

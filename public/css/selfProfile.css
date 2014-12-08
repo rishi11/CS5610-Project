@@ -1,0 +1,16 @@
+﻿.buttoncorner{
+    right : 0px;
+    position : fixed;
+    margin : 15px;
+}
+
+.fixedField {
+    font-size : 20px;
+    padding : 5px;
+    margin : 10px;
+}
+
+.editField{
+    padding : 5px;
+    margin : 10px;
+}

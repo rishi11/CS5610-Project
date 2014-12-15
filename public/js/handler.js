@@ -16,6 +16,7 @@ $(document).ready(function () {
         $(".clockAdd").click(addClock);
         $(".mapsAdd").click(addMaps);
         $(".deleteWidget").click(deleteWidgetHandler);
+        $(".saveExitPage").click(saveAndExitHandler);
         $(".saveWidget").click(saveWidgetHAndler);
         $(".wind").click(flipWeatherWidget);
         $(".set").click(setWeatherWidget);
@@ -35,11 +36,17 @@ $(document).ready(function () {
         $(".addWidgetIcon").click(showAddWidgetTab);
         $(".cancelCover").click(cancelCoverHandler);
         $(".deleteAllWidgets").click(deleteAllWidgetHandler);
+        $(".addNotify").click(addNotifyHandler);
+        $(".refreshNotification").click(refreshNotifications);
+        $(".addAlarmWidget").click(addAlarmWidgetHandler);
+        $(".addChatWidget").click(addChatWidgetHandler);
         $(".send").hide();
         $(".noSend").hide();
         $(".replyContent").hide();
         $(".hiddenMaps").hide();
         $(".hiddenClock").hide();
+        $(".hiddenAlarm").hide();
+        $(".hiddenChat").hide();
         $("#saved").hide();
         getEventHandlerJquery();
         getAllUsers();
@@ -51,6 +58,29 @@ $(document).ready(function () {
     function exitPageWithoutSaveHandler() {
         self.close();
     }
+
+    function addAlarmWidgetHandler() {
+        if ($(".hiddenAlarm").hasClass("hideModeAlarm")) {
+            $(".hiddenAlarm").draggable();
+            $(".hiddenAlarm").show();
+            $(".hiddenAlarm").removeClass("hideModeAlarm");
+            $(".hiddenAlarm").css({ position: "absolute", top: 100, left: 100 });
+        }
+        $(".addWidgetCover").hide();
+    }
+
+    function addChatWidgetHandler() {
+        if ($(".hiddenChat").hasClass("hideModeChat")) {
+            $(".hiddenChat").draggable();
+            $(".hiddenChat").show();
+            $(".hiddenChat").removeClass("hideModeChat");
+            $(".hiddenChat").css({ position: "absolute", top: 100, left: 100 });
+        }
+        
+        $(".addWidgetCover").hide();
+        startChat();
+    }
+
 
     function deleteAllWidgetHandler() {
         var widgets = $(".dashBoardWidget");
@@ -136,6 +166,33 @@ $(document).ready(function () {
         var dom = $(cloneFrom)
             .css({ position: "absolute", top: 100, left: 100});
         $('#launchpad').append(dom);
+        $(".addWidgetCover").hide();
+    }
+
+    function addNotifyHandler() {
+        var widgets = $(".dashBoardWidget");
+        for (var i = 0 ; i < widgets.length ; i++) {
+            if (!($(widgets[i]).hasClass('cloneWidget'))) {
+                if (($(widgets[i]).hasClass('dashBoardNotify'))) {
+                    ////console.log("A TTS is there");
+                    $(".addWidgetCover").hide();
+                    return;
+                } else {
+                    ////console.log("a fresh TTS");
+                }
+            }
+        }
+        var cloneFrom = $('.cloneNotify').clone();
+        cloneFrom.removeClass('cloneNotify');
+        cloneFrom.removeClass('cloneWidget');
+        cloneFrom.addClass('fresh');
+        cloneFrom.show();
+        cloneFrom.draggable();
+        var dom = $(cloneFrom)
+            .css({ position: "absolute", top: 100, left: 100 });
+        $('#launchpad').append(dom);
+        cloneFrom.find('.refreshNotification').click(refreshNotifications);
+        refreshNotifications();
         $(".addWidgetCover").hide();
     }
 
@@ -633,7 +690,53 @@ $(document).ready(function () {
                         type: type,
                         atr1: atr1
                     }
-                } 
+                } else if (widget.hasClass('dashBoardNotify') && (!(widget.hasClass('cloneWidget')))) {
+                    var position = widget.position();
+                    var top = position.top;
+                    var left = position.left;
+                    var width = widget.outerWidth();
+                    var height = widget.outerHeight();
+                    var type = "NOTIFY";
+                    obj = {
+                        top: top,
+                        left: left,
+                        width: width,
+                        height: height,
+                        type: type
+                    }
+                } else if (widget.hasClass('dashBoardAlarm') && (!(widget.hasClass('hideModeAlarm')))) {
+                    var position = widget.position();
+                    var top = position.top;
+                    var left = position.left;
+                    var width = widget.outerWidth();
+                    var height = widget.outerHeight();
+                    var type = "ALARM";
+                    var atr1 = widget.find(".hours").val();
+                    var atr2 = widget.find(".minutes").val();
+                    obj = {
+                        top: top,
+                        left: left,
+                        width: width,
+                        height: height,
+                        type: type,
+                        atr1 : atr1,
+                        atr2 : atr2
+                    }
+                } else if (widget.hasClass('dashBoardChat') && (!(widget.hasClass('hideModeChat')))) {
+                    var position = widget.position();
+                    var top = position.top;
+                    var left = position.left;
+                    var width = widget.outerWidth();
+                    var height = widget.outerHeight();
+                    var type = "CHAT";
+                    obj = {
+                        top: top,
+                        left: left,
+                        width: width,
+                        height: height,
+                        type: type
+                    }
+                }
             
             if (obj != null) {
                 widgetArray.push(obj);
@@ -664,24 +767,371 @@ $(document).ready(function () {
             url: "http://project-cs5610fall14.rhcloud.com/dashboardSave/" + sendObjJson + "/" + username,
             success: function (data) {
                 //console.log(data);
-                $("#saved").dialog({
-                    dialogClass: "no-close",
-                    resizable: false,
-                    draggable: false,
-                    modal: true,
-                    buttons: [
-                      {
-                          text: "CONTINUE",
-                          click: function () {
-                              $("#saved").dialog("close");
-                          },
-                          "Cancel": function () { $("#saved").dialog("close"); }
-                      }
-                    ]
-                });
+                saveDialog();
+             
             }
         });
 
+    }
+
+    function saveAndExitHandler() {
+        //console.log("save widget handler");
+        var widgetArray = [];
+        var widgets = $(".dashBoardWidget");
+
+        if (widgets.length == 0)
+            return;
+
+        //console.log("Number on widgets on page : " + widgets.length);
+
+        var weatherWidget = $('.dashBoardWeather');
+        var stickyNoteWidget = $('.dashBoardSticky');
+        var googlerWidget = $('.dashBoardGoogler');
+        var calendar = $('.dashBoardCalendar');
+        var clock = $('.dashBoardClock');
+        var calculator = $('.dashBoardCalculator');
+        widgets.each(function (index, widget) {
+            var obj = null;
+            widget = $(widget);
+            if ((widget.hasClass('dashBoardGoogler')) && (!(widget.hasClass('cloneWidget')))) {
+                //console.log("Parse Googler");
+                var position = widget.position();
+                var top = position.top;
+                var left = position.left;
+                var width = widget.outerWidth();
+                var height = widget.outerHeight();
+                var type = "GOOGLER";
+                var atr1 = null;
+                var atr2 = null;
+                // //console.log("Height : " + top);
+                obj = {
+                    top: top,
+                    left: left,
+                    width: width,
+                    height: height,
+                    type: type,
+                    atr1: atr1,
+                    atr2: atr2
+                }
+
+            } else if (widget.hasClass('dashBoardWeather') && (!(widget.hasClass('cloneWidget')))) {
+                //console.log("Weather Widget parse");
+                var position = widget.position();
+                var top = position.top;
+                var left = position.left;
+                var width = widget.outerWidth();
+                var height = widget.outerHeight();
+                var type = "WEATHER";
+                var atr1 = (widget).find('.zipCode').val();
+                var atr2 = (widget).find('.country').val();
+                obj = {
+                    top: top,
+                    left: left,
+                    width: width,
+                    height: height,
+                    type: type,
+                    atr1: atr1,
+                    atr2: atr2
+                }
+                //console.log("The two values : " + atr1 + " and " + atr2);
+            } else if (widget.hasClass('dashBoardClock') && (!(widget.hasClass('hideClockMode')))) {
+                //console.log("Clock widget parse");
+                var position = widget.position();
+                var top = position.top;
+                var left = position.left;
+                var width = widget.outerWidth();
+                var height = widget.outerHeight();
+                var type = "CLOCK";
+                var atr1 = (widget).find('.timeCountry').val();
+                obj = {
+                    top: top,
+                    left: left,
+                    width: width,
+                    height: height,
+                    type: type,
+                    atr1: atr1
+                }
+                //console.log("Clock two values : " + atr1 + " and " + atr2);
+            } else if (widget.hasClass('dashBoardSticky') && (!(widget.hasClass('cloneWidget')))) {
+                //console.log("Sticky widget parse");
+                var position = widget.position();
+                var top = position.top;
+                var left = position.left;
+                var width = widget.outerWidth();
+                var height = widget.outerHeight();
+                var type = "STICKY";
+                var atr1 = (widget).find('.stickyTitle').html();
+                var atr2 = (widget).find('.stickyContent').html();
+                obj = {
+                    top: top,
+                    left: left,
+                    width: width,
+                    height: height,
+                    type: type,
+                    atr1: atr1,
+                    atr2: atr2
+                }
+                //console.log("Sticky two values : " + atr1 + " and " + atr2);
+
+            }
+            else if (widget.hasClass('dashBoardFriendFinder') && (!(widget.hasClass('cloneWidget')))) {
+                //console.log("Parse a friend finder");
+                var position = widget.position();
+                var top = position.top;
+                var left = position.left;
+                var width = widget.outerWidth();
+                var height = widget.outerHeight();
+                var type = "FRIENDFINDER";
+                obj = {
+                    top: top,
+                    left: left,
+                    width: width,
+                    height: height,
+                    type: type
+                }
+            } else if (widget.hasClass('dashBoardEvents') && (!(widget.hasClass('cloneWidget')))) {
+                //console.log("parse events");
+                var position = widget.position();
+                var top = position.top;
+                var left = position.left;
+                var width = widget.outerWidth();
+                var height = widget.outerHeight();
+                var type = "EVENTS";
+                obj = {
+                    top: top,
+                    left: left,
+                    width: width,
+                    height: height,
+                    type: type
+                }
+            } else if (widget.hasClass('dashBoardCalendar') && (!(widget.hasClass('cloneWidget')))) {
+                //console.log("parse calendar");
+                var position = widget.position();
+                var top = position.top;
+                var left = position.left;
+                var width = widget.outerWidth();
+                var height = widget.outerHeight();
+                var type = "CALENDAR";
+                obj = {
+                    top: top,
+                    left: left,
+                    width: width,
+                    height: height,
+                    type: type
+                }
+            } else if (widget.hasClass('dashBoardCalculator') && (!(widget.hasClass('cloneWidget')))) {
+                //console.log("parase calc");
+                var position = widget.position();
+                var top = position.top;
+                var left = position.left;
+                var width = widget.outerWidth();
+                var height = widget.outerHeight();
+                var type = "CALCULATOR";
+                obj = {
+                    top: top,
+                    left: left,
+                    width: width,
+                    height: height,
+                    type: type
+                }
+            } else if (widget.hasClass('dashBoardMaps') && (!(widget.hasClass('hideMode')))) {
+                //console.log("Parse a map");
+                var position = widget.position();
+                var top = position.top;
+                var left = position.left;
+                var width = widget.outerWidth();
+                var height = widget.outerHeight();
+                var type = "MAPS";
+                obj = {
+                    top: top,
+                    left: left,
+                    width: width,
+                    height: height,
+                    type: type
+                }
+            } else if (widget.hasClass('dashBoardYoutube') && (!(widget.hasClass('cloneWidget')))) {
+                var position = widget.position();
+                var top = position.top;
+                var left = position.left;
+                var width = widget.outerWidth();
+                var height = widget.outerHeight();
+                var type = "YOUTUBE";
+                var urlInWidget = widget.find('.youtubeVideo').attr('src');
+                //console.log(urlInWidget);
+                var splitUrl = urlInWidget.split("/");
+                var atr1 = splitUrl[splitUrl.length - 1];
+                //console.log("Atr1 of youtube : " + atr1);
+                obj = {
+                    top: top,
+                    left: left,
+                    width: width,
+                    height: height,
+                    type: type,
+                    atr1: atr1
+                }
+            } else if (widget.hasClass('dashBoardMessenger') && (!(widget.hasClass('cloneWidget')))) {
+                var position = widget.position();
+                var top = position.top;
+                var left = position.left;
+                var width = widget.outerWidth();
+                var height = widget.outerHeight();
+                var type = "MESSENGER";
+                obj = {
+                    top: top,
+                    left: left,
+                    width: width,
+                    height: height,
+                    type: type
+                }
+            } else if (widget.hasClass('dashBoardFriendFinder') && (!(widget.hasClass('cloneWidget')))) {
+                var position = widget.position();
+                var top = position.top;
+                var left = position.left;
+                var width = widget.outerWidth();
+                var height = widget.outerHeight();
+                var type = "FRIENDFINDER";
+                obj = {
+                    top: top,
+                    left: left,
+                    width: width,
+                    height: height,
+                    type: type
+                }
+            } else if (widget.hasClass('dashBoardTTS') && (!(widget.hasClass('cloneWidget')))) {
+                var position = widget.position();
+                var top = position.top;
+                var left = position.left;
+                var width = widget.outerWidth();
+                var height = widget.outerHeight();
+                var type = "TTS";
+                obj = {
+                    top: top,
+                    left: left,
+                    width: width,
+                    height: height,
+                    type: type
+                }
+            } else if (widget.hasClass('dashBoardImage') && (!(widget.hasClass('cloneWidget')))) {
+                var position = widget.position();
+                var top = position.top;
+                var left = position.left;
+                var width = widget.outerWidth();
+                var height = widget.outerHeight();
+                var type = "IMAGE";
+                var urlForImage = (widget).find('.urlsImage').attr('src');
+                //console.log("URL : " + urlForImage);
+                var urlForImageParsed = urlForImage.replace(new RegExp('/', "g"), '~');
+                //console.log("IMG Url to store : " + urlForImageParsed);
+                var atr1 = urlForImageParsed;
+                obj = {
+                    top: top,
+                    left: left,
+                    width: width,
+                    height: height,
+                    type: type,
+                    atr1: atr1
+                }
+            } else if (widget.hasClass('dashBoardNotify') && (!(widget.hasClass('cloneWidget')))) {
+                var position = widget.position();
+                var top = position.top;
+                var left = position.left;
+                var width = widget.outerWidth();
+                var height = widget.outerHeight();
+                var type = "NOTIFY";
+                obj = {
+                    top: top,
+                    left: left,
+                    width: width,
+                    height: height,
+                    type: type
+                }
+            } else if (widget.hasClass('dashBoardAlarm') && (!(widget.hasClass('hideModeAlarm')))) {
+                var position = widget.position();
+                var top = position.top;
+                var left = position.left;
+                var width = widget.outerWidth();
+                var height = widget.outerHeight();
+                var type = "ALARM";
+                var atr1 = widget.find(".hours").val();
+                var atr2 = widget.find(".minutes").val();
+                obj = {
+                    top: top,
+                    left: left,
+                    width: width,
+                    height: height,
+                    type: type,
+                    atr1: atr1,
+                    atr2: atr2
+                }
+            }
+            else if (widget.hasClass('dashBoardChat') && (!(widget.hasClass('hideModeChat')))) {
+                var position = widget.position();
+                var top = position.top;
+                var left = position.left;
+                var width = widget.outerWidth();
+                var height = widget.outerHeight();
+                var type = "CHAT";
+                obj = {
+                    top: top,
+                    left: left,
+                    width: width,
+                    height: height,
+                    type: type
+                }
+            }
+
+            if (obj != null) {
+                widgetArray.push(obj);
+            }
+
+        })
+        //console.log("Widget Array LENGTH : " + widgetArray.length);
+        var jsonWidgets = JSON.stringify(widgetArray);
+        //console.log("JSON OBJECT FOR WIDGETS : " + jsonWidgets);
+        var currentBackgroundPath = $('body').css('background-image');
+        //console.log("Background path : " + currentBackgroundPath);
+        var currentBackGround = currentBackgroundPath.split('/');
+        var currentBackGroundExact = currentBackGround[5].split(')');
+        var currentPosition = $("input[name=position]:checked").val();
+        var username = getUrlParameterJquery('username');
+        var sendObj = {
+            widgets: widgetArray,
+            dashBoardBackGround: currentBackGroundExact[0],
+            toolBarPosition: currentPosition,
+            dashBoardUser: username
+        }
+
+        var sendObjJson = JSON.stringify(sendObj);
+
+        // WEBSERVICE CALL
+        $.ajax({
+            dataType: "json",
+            url: "http://project-cs5610fall14.rhcloud.com/dashboardSave/" + sendObjJson + "/" + username,
+            success: function (data) {
+                //console.log(data);
+                self.close();
+
+            }
+        });
+
+    }
+
+    function saveDialog() {
+        $("#saved").dialog({
+            dialogClass: "no-close",
+            resizable: false,
+            draggable: false,
+            modal: true,
+            buttons: [
+              {
+                  text: "CONTINUE",
+                  click: function () {
+                      $("#saved").dialog("close");
+                  },
+                  "Cancel": function () { $("#saved").dialog("close"); }
+              }
+            ]
+        });
     }
 
     function flipWeatherWidget() {
@@ -964,6 +1414,29 @@ $(document).ready(function () {
                 var dom = $(cloneFrom)
                     .css({ position: "absolute", top: widgetsrecieved[i].top, left: widgetsrecieved[i].left, width : widgetsrecieved[i].width , height : widgetsrecieved[i].height });
                 $('#launchpad').append(dom);
+            } else if (widgetsrecieved[i].type == "NOTIFY") {
+                var cloneFrom = $('.cloneNotify').clone();
+                cloneFrom.removeClass('cloneNotify');
+                cloneFrom.removeClass('cloneWidget');
+                cloneFrom.addClass('fresh');
+                cloneFrom.show();
+                cloneFrom.draggable();
+                var dom = $(cloneFrom)
+                    .css({ position: "absolute", top: widgetsrecieved[i].top , left: widgetsrecieved[i].left, width : widgetsrecieved[i].width, height : widgetsrecieved[i].height });
+                $('#launchpad').append(dom);
+                cloneFrom.find('.refreshNotification').click(refreshNotifications);
+                refreshNotifications();
+            } else if (widgetsrecieved[i].type == "ALARM") {
+                $(".hiddenAlarm").draggable();
+                $(".hiddenAlarm").show();
+                $(".hiddenAlarm").removeClass("hideModeAlarm");
+                $(".hiddenAlarm").css({ position: "absolute", top: widgetsrecieved[i].top, left: widgetsrecieved[i].left, width: widgetsrecieved[i].width, height: widgetsrecieved[i].height });
+                setAlarmToRing();
+            } else if (widgetsrecieved[i].type == "CHAT") {
+                $(".hideenChat").draggable();
+                $(".hiddenChat").show();
+                $(".hiddenChat").removeClass("hideModeChat");
+                $(".hiddenChat").css({ position: "absolute", top: widgetsrecieved[i].top, left: widgetsrecieved[i].left, width: widgetsrecieved[i].width, height: widgetsrecieved[i].height });
             }
         }
 
@@ -1068,6 +1541,38 @@ $(document).ready(function () {
         }
     }
 
+    function refreshNotifications() {
+        //var mainWidgetToChange = $(obj).parent().parent();
+        console.log("function working");
+        var username = getUrlParameter('username');
+        $.ajax({
+            dataType: "json",
+            url: "http://project-cs5610fall14.rhcloud.com/getNotification/" + username,
+            success: function (data) {
+                console.log(data);
+                if (data.length > 0) {
+                    $(".notificationTable > tbody").empty();
+
+                    for (var i = 0 ; i < data.length; i++) {
+                        if (data[i].type == "unread") {
+                            //console.log("Here");
+                            $(".notificationTable > tbody").append('<tr><td><a target="_blank" href="otherProfile.html?user=' + username + '&profileUser=' + data[i].userUpdate + '">' + data[i].userUpdate + '</a> updated profile.<img title="New Notification" class="moreicon" src="../images/read.png" /></td></tr>')
+
+                        }
+                    }
+                    for (var i = 0 ; i < data.length; i++) {
+                        if (data[i].type == "read") {
+                            //console.log("here 2");
+                            $(".notificationTable > tbody").append('<tr><td><a target="_blank" href="otherProfile.html?user=' + username + '&profileUser=' + data[i].userUpdate + '">' + data[i].userUpdate + '</a> updated profile.</td></tr>')
+
+                        }
+                    }
+                }
+                
+            }
+        });
+    }
+
     function getWeatherJquery(obj, atr1, atr2) {
         //console.log("Attributes : " + atr1 + " & " + atr2);
         //var divEdit = $(obj).parent().parent();
@@ -1152,6 +1657,11 @@ function deleteWidgetAction(obj) {
     } else if ($(obj).hasClass('deleteYoutube')) {
         $(obj).parent().remove();
         //console.log("remove Youtube");
+    } else if ($(obj).hasClass('deleteNotify')) {
+        $(obj).parent().remove();
+    } else if ($(obj).hasClass('deleteAlarm')) {
+        $(".hiddenAlarm").addClass('hideModeAlarm');
+        $(".hiddenAlarm").hide();
     }
 }
 
@@ -1512,3 +2022,69 @@ function filterMessages(obj){
         }
     }
 }
+
+function checkLength(obj) {
+    //console.log("Called on key up");
+    var valueToCheck = $(obj).html();
+    //console.log(valueToCheck);
+    if (valueToCheck.length > 10) {
+        var valueCut = valueToCheck.substring(0, 10);
+        //console.log("Value cut : " + valueCut);
+        $(obj).html(valueCut)
+    } else {
+        $(obj).html(valueToCheck);
+    }
+}
+
+var audio = new Audio("../audio/alarm.mp3");
+var flag = false;
+var repeater = null;
+
+function setAlarmToRing() {
+    
+    if ($(".minutes").val() != "-" && $(".hours").val() != "-") {
+        repeater = setInterval(setARing, 1000);
+    }
+    
+}
+
+function setARing() {
+    
+        var alarmHours = $(".hours").val();
+        var alarmMinutes = $(".minutes").val();
+        var d = new Date();
+        var minutes = d.getMinutes();
+        var hour = d.getHours();
+        //console.log("The current time is " + hour + " : " + minutes);
+        if (alarmHours == hour && alarmMinutes == minutes) {
+            audio.play();
+            flag = true;
+        } else {
+            if (flag) {
+                audio.pause();
+                $(".hours").val("-");
+                $(".minutes").val("-");
+                clearInterval(repeater);
+            }
+            
+        }
+    
+    
+}
+
+
+function startChat() {
+    console.log("Can be called");
+    var chatReceive = setInterval(hitForChat, 1000);
+}
+
+function hitForChat() {
+    $.ajax({
+        dataType: "json",
+        url: "http://project-cs5610fall14.rhcloud.com/broadcastMessage",
+        success: function (data) {
+            console.log("Received Chat : " + data);
+        }
+    });
+}
+

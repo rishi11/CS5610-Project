@@ -54,6 +54,8 @@
             <img title="Text To Speech" class="widgetThumbNail addTTS" src="../images/widgetIcon/tts.png" />
             <img title="Youtube" class="widgetThumbNail addYoutube" src="../images/widgetIcon/youtube.png" />
             <img title="Image" class="widgetThumbNail addImageWidget" src="../images/widgetIcon/imageWidget.png" />
+            <img title="Notifications" class="widgetThumbNail addNotify" src="../images/widgetIcon/notification.png" />
+            <img title="Alarm" class="widgetThumbNail addAlarm" src="../images/widgetIcon/alarm.png" />
             <input type="button" class="btn btn-danger btn-block cancelCover" value="BACK" />
         </div>
     </div>
@@ -183,7 +185,7 @@
     </div>
 
     <div class="settings container">
-        <img title="Hide" class="settingPage toolBarIcon hideSetting" src="../images/downArrow.png" />
+        <img title="Hide Settings" class="settingPage toolBarIcon hideSetting" src="../images/downArrow.png" />
         <div>
             <div class="toolbarPosition">
                 <h3>Tool Bar Position :</h3>
@@ -217,8 +219,8 @@
         <div>
             <a class="stickyAnchor" href="#">
                 <img src="../images/delete.png" class="deleteIcon deleteSticky" onclick="deleteWidgetAction(this);" />
-                <h3 contenteditable="true" class="stickyTitle" onclick="clearStickyTitle(this);">Title</h3>
-                <p contenteditable="true" class="stickyContent" onclick="clearStickyContent(this);">Content</p>
+                <h3 contenteditable='true' onkeyup="checkLength(this);" onclick="$(this).focus();" class="stickyTitle">Title</h3>
+                <p contenteditable='true' onkeyup="checkLength(this);" onclick="$(this).focus();" class="stickyContent">Content</p>
             </a>
         </div>
     </div>

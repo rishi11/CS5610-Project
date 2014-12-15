@@ -3,7 +3,7 @@
 <head>
     <title>DashBoard</title>
     <link rel="stylesheet" href="../css/bootstrap.css" />
-    <link rel="stylesheet" href="../css/jquery-ui.css" /> 
+    <link rel="stylesheet" href="../css/jquery-ui.css" />
     <link rel="stylesheet" href="../css/defaultPageCss.css" />
     <link rel="stylesheet" href="../css/weatherWidgetStyle.css" />
     <link rel="stylesheet" href="../css/googlerWidgetStyle.css" />
@@ -22,6 +22,9 @@
     <link rel="stylesheet" href="../css/imageWidget.css" type="text/css" />
     <link rel="stylesheet" href="../css/ttsStyle.css" type="text/css" />
     <link rel="stylesheet" href="../css/youtubeStyle.css" type="text/css" />
+    <link rel="stylesheet" href="../css/notifyStyle.css" type="text/css" />
+    <link rel="stylesheet" href="../css/alarmStyle.css" type="text/css"/>
+    <link rel="stylesheet" href="../css/chatStyle.css" type="text/css"/>
     <script src="../js/iframeHandle.js"></script>
     <script src="../js/jquery-1.11.1.js"></script>
     <script src="../js/jquery-ui.js"></script>
@@ -53,6 +56,9 @@
             <img title="Text To Speech" class="widgetThumbNail addTTS" src="../images/widgetIcon/tts.png" />
             <img title="Youtube" class="widgetThumbNail addYoutube" src="../images/widgetIcon/youtube.png" />
             <img title="Image" class="widgetThumbNail addImageWidget" src="../images/widgetIcon/imageWidget.png" />
+            <img title="Notifications" class="widgetThumbNail addNotify" src="../images/widgetIcon/notification.png" />
+            <img title="Alarm" class="widgetThumbNail addAlarmWidget" src="../images/widgetIcon/alarm.png" />
+            <!--<img title="Live Chat" class="widgetThumbNail addChatWidget" src="../images/widgetIcon/chat.png" />-->
             <input type="button" class="btn btn-danger btn-block cancelCover" value="BACK" />
         </div>
     </div>
@@ -61,7 +67,7 @@
         <img title="Add Widgets" class="toolBarIcon addWidgetIcon hover-shadow" src="../images/toolBarIcon/add.png" />
         <img title="Delete Widgets" class="toolBarIcon deleteWidget hover-shadow " src="../images/toolBarIcon/delete.png" />
         <img title="Save Widgets" class="toolBarIcon saveWidget hover-shadow " src="../images/toolBarIcon/save.png" />
-        <img title="Save and Exit"class="toolBarIcon saveExitPage hover-shadow " src="../images/toolBarIcon/saveExit.png" />
+        <img title="Save and Exit" class="toolBarIcon saveExitPage hover-shadow " src="../images/toolBarIcon/saveExit.png" />
         <a title="Help" target="_blank" href="help.html" class="helpPage"><img class="toolBarIcon hover-shadow " src="../images/toolBarIcon/help.png" /></a>
         <img title="Setting" class="toolBarIcon settingPage hover-shadow" src="../images/toolBarIcon/settings.png" />
         <img title="Profile" class="toolBarIcon profilePage hover-shadow " src="../images/toolBarIcon/profile.png" />
@@ -182,7 +188,7 @@
     </div>
 
     <div class="settings container">
-        <img title="Hide" class="settingPage toolBarIcon hideSetting" src="../images/downArrow.png" /> 
+        <img title="Hide Settings" class="settingPage toolBarIcon hideSetting" src="../images/downArrow.png" />
         <div>
             <div class="toolbarPosition">
                 <h3>Tool Bar Position :</h3>
@@ -216,8 +222,8 @@
         <div>
             <a class="stickyAnchor" href="#">
                 <img src="../images/delete.png" class="deleteIcon deleteSticky" onclick="deleteWidgetAction(this);" />
-                <h3 contenteditable="true" class="stickyTitle">Title</h3>
-                <p contenteditable="true" class="stickyContent">Content</p>
+                <h3 contenteditable='true' onkeyup="checkLength(this);" onclick="$(this).focus();" class="stickyTitle">Title</h3>
+                <p contenteditable='true' onkeyup="checkLength(this);" onclick="$(this).focus();" class="stickyContent">Content</p>
             </a>
         </div>
     </div>
@@ -315,13 +321,12 @@
         <div class="messageStyle">
             <div class="messageHandler">
                 <input type="button" class="btn btn-primary btn-block" onclick="getAllMessages();" value="Get Messages" />
-                <input type="text" class="form-control filterUser" placeholder="Filter Messages by User" onchange="filterMessages(this);" />
+                <input type="text" class="form-control filterUser" placeholder="Filter Messages by User" onkeydown="filterMessages(this);" />
             </div>
             <br />
             <div class="messageList">
                 <table class="messageListTable">
-                    <tbody>
-                    </tbody>
+                    <tbody></tbody>
                 </table>
             </div>
         </div>
@@ -331,7 +336,7 @@
         <img src="../images/delete.png" class="deleteIcon deleteFriendFinder" onclick="deleteWidgetAction(this);" />
         <div class="friendFinderStyle">
             <div class="friendsHandler">
-                <input type="text" class="form-control userfilter" placeholder="Enter Username" onchange="filterUser(this);" />
+                <input type="text" class="form-control userfilter" placeholder="Enter Username" onkeyup="filterUser(this);" />
             </div>
             <div class="friendList">
                 <table class="friendListTable">
@@ -341,7 +346,7 @@
         </div>
     </div>
 
-    <div class="dashBoardMaps dashBoardWidget hideMode fresh grow hiddenMaps" >
+    <div class="dashBoardMaps dashBoardWidget hideMode fresh grow hiddenMaps">
         <img src="../images/delete.png" class="deleteIcon deleteMaps" onclick="deleteWidgetAction(this);" />
         <div id="map-canvas" class="nodrag">
 
@@ -359,7 +364,7 @@
 
     <div class=" cloneWidget cloneImage dashBoardWidget dashBoardImage grow">
         <div class="imageStyleDiv">
-            <img src="../images/delete.png" class="deleteIcon deleteImage" onclick="deleteWidgetAction(this);" />    
+            <img src="../images/delete.png" class="deleteIcon deleteImage" onclick="deleteWidgetAction(this);" />
             <div class="imageEdit">
                 <label>URL for Image : </label>
                 <input type="text" class="imageLink form-control" placeholder="Paste Image URL Here" />
@@ -390,7 +395,127 @@
                 </table>
                 <div>
                     <iframe class="youtubeVideo" src="//www.youtube.com/embed/tGl1iPaEr0c" frameborder="0"></iframe>
- 
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="cloneWidget cloneNotify dashBoardWidget dashBoardNotify grow">
+        <img src="../images/delete.png" class="deleteIcon deleteNotify" onclick="deleteWidgetAction(this);" />
+        <div class="notifyStyler">
+            <div class="adjustIcon">
+                <h4>NOTIFICATIONS</h4>
+            </div>
+            <img title="refresh" class="refreshNotification getNotifications" src="../images/refresh.png" />
+            <div class="notificationList">
+                <table class="notificationTable">
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="dashBoardWidget dashBoardAlarm fresh grow cloneAlarm hiddenAlarm hideModeAlarm">
+        <img src="../images/delete.png" class="deleteIcon deleteAlarm" onclick="deleteWidgetAction(this);" />
+        <div class="alarmStyler">
+            <div class="alarmSet">
+                <input type="button" class="btn btn-primary btn-block setAlarm" value="Set Alarm" onclick="setAlarmToRing();" />
+                <div class="hoursDiv">
+                    <select class="hours form-control">
+                        <option value="-">--</option>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">13</option>
+                        <option value="14">14</option>
+                        <option value="15">15</option>
+                        <option value="16">16</option>
+                        <option value="17">17</option>
+                        <option value="18">18</option>
+                        <option value="19">19</option>
+                        <option value="20">20</option>
+                        <option value="21">21</option>
+                        <option value="22">22</option>
+                        <option value="23">23</option>
+
+
+                    </select>
+                </div>
+                <div class="minutesDiv">
+                    <select class="minutes form-control">
+                        <option value="-">--</option>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        <option value="13">13</option>
+                        <option value="14">14</option>
+                        <option value="15">15</option>
+                        <option value="16">16</option>
+                        <option value="17">17</option>
+                        <option value="18">18</option>
+                        <option value="19">19</option>
+                        <option value="20">20</option>
+                        <option value="21">21</option>
+                        <option value="22">22</option>
+                        <option value="23">23</option>
+                        <option value="24">24</option>
+                        <option value="25">25</option>
+                        <option value="26">26</option>
+                        <option value="27">27</option>
+                        <option value="28">28</option>
+                        <option value="29">29</option>
+                        <option value="30">30</option>
+                        <option value="31">31</option>
+                        <option value="32">32</option>
+                        <option value="33">33</option>
+                        <option value="34">34</option>
+                        <option value="35">35</option>
+                        <option value="36">36</option>
+                        <option value="37">37</option>
+                        <option value="38">38</option>
+                        <option value="39">39</option>
+                        <option value="40">40</option>
+                        <option value="41">41</option>
+                        <option value="42">42</option>
+                        <option value="43">43</option>
+                        <option value="44">44</option>
+                        <option value="45">45</option>
+                        <option value="46">46</option>
+                        <option value="47">47</option>
+                        <option value="48">48</option>
+                        <option value="49">49</option>
+                        <option value="50">50</option>
+                        <option value="51">51</option>
+                        <option value="52">52</option>
+                        <option value="53">53</option>
+                        <option value="54">54</option>
+                        <option value="55">55</option>
+                        <option value="56">56</option>
+                        <option value="57">57</option>
+                        <option value="58">58</option>
+                        <option value="59">59</option>
+                    </select>
                 </div>
 
             </div>
@@ -398,12 +523,20 @@
     </div>
 
 
-    <!--<div class="cloneWidget cloneMusic dashBoardWidget dashBoardMusic grow">
-        <div>
-            <input type="text" class="form-control musicSearch" />
-            <radio></radio>
+    <div class="dashBoardWidget dashBoardChat hiddenChat hideModeChat cloneChat fresh grow">
+        <img src="../images/delete.png" class="deleteIcon deleteChat" onclick="deleteWidgetAction(this);" />
+        <div class="chatMessages">
+            <table class="chatTable">
+                <tbody></tbody>
+            </table>
         </div>
-    </div>-->
+        <div>
+            <div class="chatMessage"><input type="text" placeholder="Message" class="form-control chatText"/></div>
+            <div><input type="button" class="btn btn-primary" value="Send" /></div>
+        </div>
+    </div>
+
+
     <div id="saved" title="Current State Saved">
         <h4>Dashboard Saved</h4>
     </div>

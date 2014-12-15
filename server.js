@@ -5,7 +5,7 @@ var ipaddress = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1";
 var port = process.env.OPENSHIFT_NODEJS_PORT || 3000;
 
 var mongojs = require('mongojs');
-var mongodbConnectionString = "mongodb://admin:5-wht7em3thg@127.4.170.130:27017/project";
+var mongodbConnectionString = "XXXXXXX- MONGO DB SERVER CREDENTIALS - XXXXXX";
 
 var nodemailer = require("nodemailer");
 
@@ -21,6 +21,9 @@ var offlineMsgDb = mongojs(mongodbConnectionString, ['messagesDB']);
 var eventDB = mongojs(mongodbConnectionString, ['eventsDB']);
 var usercommentsDB = mongojs(mongodbConnectionString, ['usercommentsDB']);
 var followerDB = mongojs(mongodbConnectionString, ['followerDB']);
+var notificationDB = mongojs(mongodbConnectionString, ['notificationDB']);
+var onlineChatDB = mongojs(mongodbConnectionString, ['onlineChatDB']);
+var userOnlineDB = mongojs(mongodbConnectionString, ['userOnlineDB']);
 
 // Show environment variables Temp Function
 app.get('/envVar', function (req, res) {
@@ -44,10 +47,10 @@ smtpTrans = nodemailer.createTransport('SMTP', {
     service: 'Gmail',
     auth: {
         XOAuth2: {
-            user: "XXXXXX-PRIVARE-DETAILS",
-            clientId: "XXXXXXX- PRIVATE DETAILS -XXXXXXXXXX",
-            clientSecret: "XXXXXXXX - PRIVATE DETAILS - XXXXXXXX",
-            refreshToken: "XXXXXXXX - PRIVATE DETAILS - XXXXXXXX"
+            user: "CS5610project@gmail.com",
+            clientId: "XXXXXXX- PERSONAL DETAILS -XXXXXX",
+            clientSecret: "XXXXX - PERSONAL DETAILS -XXXXXX",
+            refreshToken: "XXXXX - PERSONAL DETAILS - XXXXXX"
         }
     }
 
@@ -632,7 +635,24 @@ app.get('/setProfile/:username/:aboutme/:aboutdb', function (req, res) {
                     aboutdb : aboutdbSet
                 }
                 usercommentsDB.usercommentsDB.insert(userProfileObject, function (err, data) {
-                    res.json({ message: "success" });
+                    //
+                    followerDB.followerDB.find({
+                        following: usernameSetprofile
+                    }, function (err, data) {
+                        for (var i = 0 ; i < data.length ; i++) {
+                            var notifyObj = {
+                                userToNotify: data[i].follower,
+                                userUpdate : data[i].following,
+                                notify: "updateExatra",
+                                type : "unread"
+                            }
+                            notificationDB.notificationDB.insert(notifyObj, function (err, data) {
+                                //console.log(data);
+                            });
+                        }
+                        // res.json("Run");
+                        res.json({ message: "success" });
+                    });
                 });
             });
         } else {
@@ -707,6 +727,74 @@ app.get('/unfollow/:follower/:following', function (req, res) {
     var following = req.params.following;
     followerDB.followerDB.remove({ follower: follower, following: following }, function (err, doc) {
         res.json(doc);
+    });
+});
+
+
+//**********************************************************************************************
+// Services To get notification
+//**********************************************************************************************
+
+app.get('/getNotification/:username', function (req, res) {
+    var username = req.params.username;
+    notificationDB.notificationDB.find({
+        userToNotify: username
+    }, function (err, data) {
+        var dataToSend = data;
+        notificationDB.notificationDB.update({ userToNotify: username }, { $set: { type: "read" } }, { multi: true }, function (err, data) {
+            //console.log(data);
+            res.json(dataToSend);
+        })
+    });
+});
+
+
+//**************************************************************************************************
+// Services to chat
+//**************************************************************************************************
+
+app.get('/storeChat/:message', function (req, res) {
+    var messageToStore = req.params.message;
+    userOnlineDB.userOnlineDB.find(function (err, data) { });
+    var messageObj = {
+        message : messageToStore
+    }
+    onlineChatDB.onlineChatDB.insert(messageObj, function (err, data) {
+        res.json(data);
+    });
+});
+
+
+app.get('/broadcastMessage', function (req, res) {
+    onlineChatDB.onlineChatDB.find(function (err, data) {
+        var dataTOSend = data;
+        onlineChatDB.onlineChatDB.remove(function (err, doc) {
+            //console.log(doc);
+            res.json(dataTOSend);
+        });
+    });
+});
+
+//****************************************************************************************************
+// Service to store online message
+//****************************************************************************************************
+
+app.get('/addUser/:username', function (req, res) {
+    var username = req.params.username;
+    var userNameObj = {
+        userOnline : username
+    }
+    userOnlineDB.userOnlineDB.insert(userNameObj, function (err, data) {
+        res.json({message : "Now Online"});
+    })
+});
+
+app.get('/removeUser/:username', function (req, res) {
+    var username = req.params.username;
+    userOnlineDB.userOnlineDB.remove({
+        query: { userOnline: username }
+    }, function (err, doc) {
+        res.json({ message: "Now Offline" });
     });
 });
 

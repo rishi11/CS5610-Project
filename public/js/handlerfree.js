@@ -18,6 +18,7 @@ $(document).ready(function () {
         $(".mapsAdd").click(addMaps);
         $(".deleteWidget").click(deleteWidgetHandler);
         $(".saveWidget").click(getFullVersion);
+        $(".addAlarm").click(getFullVersion);
         $(".wind").click(flipWeatherWidget);
         $(".set").click(setWeatherWidget);
         $(".loadWidget").click(loadWidgetHandler);
@@ -36,6 +37,7 @@ $(document).ready(function () {
         $(".addWidgetIcon").click(showAddWidgetTab);
         $(".cancelCover").click(cancelCoverHandler);
         $(".deleteAllWidgets").click(deleteAllWidgetHandler);
+        $(".addNotify").click(getFullVersion)
         $(".send").hide();
         $(".noSend").hide();
         $(".replyContent").hide();
@@ -1513,5 +1515,18 @@ function filterMessages(obj){
         } else {
             $(messages[i]).parent().parent().hide();
         }
+    }
+}
+
+function checkLength(obj) {
+    //console.log("Called on key up");
+    var valueToCheck = $(obj).html();
+    //console.log(valueToCheck);
+    if (valueToCheck.length > 10) {
+        var valueCut = valueToCheck.substring(0, 10);
+        //console.log("Value cut : " + valueCut);
+        $(obj).html(valueCut)
+    } else {
+        $(obj).html(valueToCheck);
     }
 }

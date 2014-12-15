@@ -114,6 +114,7 @@ $(document).ready(function () {
         $('.fixedField').hide();
         $('.editField').show();
         $('.saveProfile').show();
+        $('.editProfile').hide();
         $(".lastLine").show();
 
     }
@@ -137,6 +138,7 @@ $(document).ready(function () {
                 $('.saveProfile').hide();
                 $('.editField').hide();
                 $('.lastLine').hide();
+                $('.editProfile').sjow();
             }
         });
 
@@ -150,6 +152,7 @@ $(document).ready(function () {
                 $('.saveProfile').hide();
                 $('.editField').hide();
                 $('.lastLine').hide();
+                $('.editProfile').show();
             }
         });
 

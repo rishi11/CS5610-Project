@@ -1,0 +1,15 @@
+﻿.dashBoardAlarm{
+    background-color : beige;
+    padding : 10px;
+    border : 1px solid darkgray;
+}
+.hoursDiv{
+    width : 50%;
+    height : auto;
+    float : left;
+}
+.minutesDiv{
+    width : 50%;
+    height : auto;
+    float : right;
+}

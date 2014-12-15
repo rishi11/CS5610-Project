@@ -1,0 +1,32 @@
+﻿.dashBoardChat{
+    background-color:beige;
+    width : 300px;
+    height : auto;
+    padding : 10px;
+    border: 1px solid darkgray;
+}
+
+
+.chatMessages{
+    width : 100%;
+    overflow : hidden;
+    overflow-y : scroll;
+    overflow-x : hidden;
+    height : 200px;
+}
+
+.chatTable{
+    width : 100%;
+    height : auto;
+}
+
+.chatMessage{
+    float : left;
+    width : 75%;
+    height : auto;
+}
+
+tr:nth-child(even){
+    background-color : lightblue;
+}
+
